@@ -151,3 +151,53 @@ void dfs(const Graph &G, int v) {
     }
 }
 ```
+
+## UnionFind
+* 「集合の併合」や「要素同士が同一集合に属するか」を判定できるデータ構造
+* 木の構造をとり、親要素の親は`-1`としておく
+* 併合`unite(x, y)`：要素$x$の親と要素$y$の親を親子にする
+* 同一集合に属するか判定`assame(x, y)`：親が等しいかを比較する
+```c++
+struct UnionFind{
+    vector<int>par, siz;
+
+    UnionFind(int n):par(n, -1), siz(n, 1){}
+
+    // 要素xの親要素
+    int root(int x){
+        if(par[x] == -1)return x;
+        else return par[x] = root(par[x]);
+    }
+
+    // xとyは同一集合に属するかを判定
+    bool issame(int x, int y){
+        return root(x) == root(y);
+    }
+
+    // 要素xの属する集合と,yの属する集合を併合する
+    bool unite(int x, int y){
+        x = root(x); y = root(y);
+
+        if(x == y)return false;
+
+        if(siz[x] < siz[y])swap(x, y);
+
+        par[y] = x;
+        siz[x] += siz[y];
+        return true;
+    }
+
+    // 要素xの属する集合の要素数
+    int size(int x){
+        return siz[root(x)];
+    }
+};
+```
+
+## 最小全域木の構成：クラスカル法
+* 最小全域木を構成するアルゴリズム
+1. 辺を重みの小さい方から順にソート
+2. 重みの小さな辺から順に以下の操作を実行
+    * 辺を追加するとグラフにサイクルが発生：棄却
+    * 辺を追加してもサイクルが発生しない：追加
+3. サイクルの判定については`UnionFind`を使うと実装が楽
