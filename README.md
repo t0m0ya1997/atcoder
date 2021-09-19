@@ -37,13 +37,25 @@ vector<pair<ll, ll>>prime_factrize(ll N){
 }
 ```
 
-## DFS(深さ優先探索)
+## 深さ優先探索（DFS）
 * stack を使え
+```c++
+vector<bool> seen;
+void dfs(const Graph &G, int v) {
+    seen[v] = true; // v を訪問済にする
+
+    // v から行ける各頂点 next_v について
+    for (auto next_v : G[v]) { 
+        if (seen[next_v]) continue; // next_v が探索済だったらスルー
+        dfs(G, next_v); // 再帰的に探索
+    }
+}
+```
 
 ## BFS(幅優先探索)
 * queue をつかえ
 
-## 順列全探索 O(N!)
+## 順列全探索 $O(N!)$
 
 ```c++
 int N = 8;
@@ -55,7 +67,7 @@ do{
 }while(next_permutation(p.begin(), p.end()))
 ```
 
-## bit全探索 O(2^N)
+## bit全探索 $O(2^N)$
 ```c++
 int N = 8;
 for(int bit=0;bit<(1<<N);++bit){
@@ -63,7 +75,7 @@ for(int bit=0;bit<(1<<N);++bit){
 }
 ```
 
-## 素数判定 O(√N)
+## 素数判定 $O(\sqrt{N})$
 ```c++
 bool prime_check(int N) {
     int B = min(N - 1, (int)(sqrt(1.0 * N)));
@@ -74,7 +86,7 @@ bool prime_check(int N) {
 }
 ```
 
-## 最大公約数 O(log(a+b))
+## 最大公約数 $O(\log(a+b))$
 ```c++
 // 再帰関数を使わない実装
 long long gcd(long long a, long long b) {
@@ -135,20 +147,6 @@ template<class T> inline bool chmax(T& a, T b) {
         return true;
     }
     return false;
-}
-```
-
-## 深さ優先探索（DFS）
-```c++
-vector<bool> seen;
-void dfs(const Graph &G, int v) {
-    seen[v] = true; // v を訪問済にする
-
-    // v から行ける各頂点 next_v について
-    for (auto next_v : G[v]) { 
-        if (seen[next_v]) continue; // next_v が探索済だったらスルー
-        dfs(G, next_v); // 再帰的に探索
-    }
 }
 ```
 
